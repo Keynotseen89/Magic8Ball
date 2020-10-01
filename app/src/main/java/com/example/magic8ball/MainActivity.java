@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Random;
@@ -18,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private final String TEXT_CONTENTS = "TextContents";
     private ImageButton magicBtnAnswer;
+    private ImageView triangleAnswer;
     private EditText questionAsked;
     private TextView answerOutput;
 
@@ -28,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Get notified when the user has clicked on the button.
         magicBtnAnswer = (ImageButton) findViewById(R.id.btnAnswer);
+        triangleAnswer = (ImageView) findViewById(R.id.imageViewAnswer);
         questionAsked = (EditText) findViewById(R.id.editText);
         answerOutput = (TextView) findViewById(R.id.tvAnswer);
 
@@ -36,12 +42,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i("magic", "clicked on Magic 8 ball");
                 questionAsked.setText("");
+                makeMeShake(magicBtnAnswer, 20, 5);
+                Animation aniRotateClk = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
+                Animation fadAnim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadin_animation);
+                triangleAnswer.startAnimation(aniRotateClk);
+                answerOutput.startAnimation(fadAnim);
                 answerOutput.setText(randomAnswer());
-
             }
         };
         magicBtnAnswer.setOnClickListener(ourOnClickListener);
 
+    }
+
+    public static View makeMeShake(View view, int duration, int offset) {
+        Animation anim = new TranslateAnimation(-offset, offset, 0, 0);
+        anim.setDuration(duration);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(5);
+        view.startAnimation(anim);
+        return view;
     }
 
     private String randomAnswer() {

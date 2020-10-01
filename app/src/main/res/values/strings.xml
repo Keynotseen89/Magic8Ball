@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Magic8Ball</string>
+    <string name="will_it_rain_tomorrow">Will it rain tomorrow</string>
+    <string name="random_answer">Random Answer</string>
+    <string name="answer">answer</string>
+    <string name="ask_a_yes_no_question">Ask a yes/no question.</string>
 </resources>
